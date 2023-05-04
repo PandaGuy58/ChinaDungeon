@@ -8,7 +8,7 @@ public class CkeckpointTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name == "Lower Body")
+        if (other.gameObject.name == "Player")
         {
             Checkpoints.checkpointID += 1;
             GameObject.Find("GameMaster").GetComponent<Checkpoints>().checkpointPositions.Add(this.gameObject.transform.position);
