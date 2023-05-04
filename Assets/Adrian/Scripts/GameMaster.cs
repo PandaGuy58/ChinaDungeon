@@ -96,6 +96,7 @@ public class GameMaster : MonoBehaviour
             {
                 Debug.Log("ONCE");
                 GameObject.Find("Player").GetComponent<CharacterControllerNew>().enabled = true;
+                GameObject.Find("Player").GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
                 hands.SetActive(true);
                 MatCam.SetActive(true);
                 AdrianCam.SetActive(false);
