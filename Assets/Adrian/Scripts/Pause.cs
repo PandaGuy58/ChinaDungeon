@@ -136,6 +136,8 @@ public class Pause : MonoBehaviour
                     break;
                 case "Resume":
                     //Resume
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
                     Debug.Log("ONE");
                     Time.timeScale = 1;
                     activation = Time.time;
