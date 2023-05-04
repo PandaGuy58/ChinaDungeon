@@ -24,6 +24,8 @@ public class TriggerZones : MonoBehaviour
     public GameObject lightSources;
     public GameObject playerGameObject;
     public GameObject hands;
+    public GameObject MatCam;
+    public GameObject AdrianCam;
 
     public AudioSource pressurePlate;
     public AudioSource bars;
@@ -45,6 +47,8 @@ public class TriggerZones : MonoBehaviour
         {
             if (zoneId != 10)
             {
+                MatCam.SetActive(false);
+                AdrianCam.SetActive(true);
                 GameObject.Find("GameMaster").GetComponent<FadeScreen>().fadeIn = true;
                 GameObject.Find("GameMaster").GetComponent<FadeScreen>().once = true;
                 GameObject.Find("GameMaster").GetComponent<FadeScreen>().activation = Time.time;

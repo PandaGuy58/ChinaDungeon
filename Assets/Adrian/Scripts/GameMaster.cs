@@ -21,6 +21,8 @@ public class GameMaster : MonoBehaviour
     public GameObject playerGameObject;
     public GameObject hands;
     public GameObject currentTriggerZone;
+    public GameObject AdrianCam;
+    public GameObject MatCam;
 
     public bool playerActive;
     public bool cinemachineActive;
@@ -95,6 +97,8 @@ public class GameMaster : MonoBehaviour
                 Debug.Log("ONCE");
                 GameObject.Find("Player").GetComponent<CharacterControllerNew>().enabled = true;
                 hands.SetActive(true);
+                MatCam.SetActive(true);
+                AdrianCam.SetActive(false);
                 if (cinemachineActive)
                 {
                     Destroy(currentTriggerZone);
