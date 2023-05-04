@@ -184,7 +184,7 @@ public class CharacterControllerNew : MonoBehaviour
         Debug.Log(Time.time + " " + upwards);
         if (upwards)
         {
-            
+            rb.velocity = new Vector3(0, 0, 0);
             Vector3 upward = transform.up * pushUpValue;
             rb.AddForce(upward);
         }
