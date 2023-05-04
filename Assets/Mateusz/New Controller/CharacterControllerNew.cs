@@ -99,6 +99,8 @@ public class CharacterControllerNew : MonoBehaviour
 
     public CheckPushUp checkPushUp;
 
+    public float midAirForce = 1.2f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -155,7 +157,6 @@ public class CharacterControllerNew : MonoBehaviour
                 Vector3 forward = transform.forward * pushForwardValue * runningValue;
                 rb.AddForce(forward);
 
-                Debug.Log(Time.time);
             }
             else if (timeSpaceDown > Time.time - 0.2f)
             {
@@ -166,10 +167,22 @@ public class CharacterControllerNew : MonoBehaviour
                 ExecuteMovementOnGround();
             }
         }
+        else if(movingForward)
+        {
+            ExecuteMovementMidAir();
+        }
+        else
+        {
+            PlayerFall();
+        }
     }
 
-    
 
+    void ExecuteMovementMidAir()
+    {
+        Vector3 move = transform.forward * forwardValue * midAirForce;
+        rb.AddForce(move);
+    }
 
     public void PushUp(bool upwards)
     {
@@ -490,19 +503,26 @@ public class CharacterControllerNew : MonoBehaviour
         }
     }
 
+    void PlayerFall()
+    {
+        Vector3 currentVelocity = rb.velocity;
+        currentVelocity.x = currentVelocity.x / 1.05f;
+        currentVelocity.z = currentVelocity.z / 1.05f;
+
+        rb.velocity = currentVelocity;
+        rb.AddForce(new Vector3(0, -1, 0));
+    }
 
     void DetermineTilt()
     {
         Vector3 currentPlayerPos = transform.position;
         if (wallRunTravelX && wallRunning)
         {
-          //  Debug.Log(wallRunTravelX + " " + Time.time);
             float change = currentPlayerPos.x - recentPlayerPos.x;
             if (change > 0)
             {
                 tiltRight = true;
                 tiltLeft = false;
-           //     Debug.Log(alternativeCamera + " " + Time.time);
 
                     if (alternativeCamera)
                     {
@@ -628,11 +648,8 @@ public class CharacterControllerNew : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-         //   Debug.Log(Time.time);
             timeLastGrounded = Time.time;
             pushBody = false;
-
-            Debug.Log(Time.time + "grounded");
         }
     }
 }
