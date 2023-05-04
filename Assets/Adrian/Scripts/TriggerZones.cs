@@ -133,7 +133,7 @@ public class TriggerZones : MonoBehaviour
 
             trapObjects[i].transform.position = Vector3.Lerp(startLocation[i], endLocation[i], curveEvaluate);
 
-            if (percentComplete > 0.99f && i == trapObjects.Count - 1 && playerGameObject.activeSelf)
+            if (percentComplete > 0.99f && i == trapObjects.Count - 1)
             {
                 GameObject.Find("Player").GetComponent<CharacterControllerNew>().enabled = true;
                 hands.SetActive(true);
