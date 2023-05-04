@@ -6,7 +6,7 @@ public class FallZone : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name == "Ground Check")
+        if (other.gameObject.name == "Player")
         {
             Checkpoints.falledToDeath = true;
         }

@@ -53,7 +53,7 @@ public class MoveFallZoneUp : MonoBehaviour
                 break;
             case 1:
                 Debug.Log("First");
-                fallZone.transform.position = new Vector3(-43.29f, -17.71f, 18.56f);
+                fallZone.transform.position = new Vector3(-43.29f, -20.71f, 18.56f);
                 break;
             case 2:
                 Debug.Log("Second");
