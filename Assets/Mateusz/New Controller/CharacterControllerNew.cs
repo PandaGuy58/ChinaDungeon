@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharacterControllerNew : MonoBehaviour
 {
-    bool movingForward = false;
+    bool movingForward = false;                      // travelling
     bool running = false;
 
     public float horizontalValue = 0;
@@ -22,7 +22,6 @@ public class CharacterControllerNew : MonoBehaviour
 
     public float wallRunTimeLeft;
 
- //   public GroundCheckScript groundCheckScript;
 
     Rigidbody rb;
     public float gravityValue = 10;
@@ -34,7 +33,7 @@ public class CharacterControllerNew : MonoBehaviour
     public AnimationCurve walkCurve;
     public AnimationCurve runCurve;
 
-    public float walkingVelocity;
+    public float walkingVelocity;                   // travelling
     public float runningVelocity;
 
     Vector3 forwardVector;
@@ -57,7 +56,7 @@ public class CharacterControllerNew : MonoBehaviour
 
     public bool pushBody = false;
 
-    public float pushUpValue = 100;
+    public float pushUpValue = 100;                         // pushing up after lerp to edge
     public float pushForwardValue = 100;
 
     public Vector3 wallJumpDirection;
@@ -66,7 +65,7 @@ public class CharacterControllerNew : MonoBehaviour
     public bool wallRunTravelZ = false;
     public Transform wallTransform;
 
-    public bool alternativeCamera;
+    public bool alternativeCamera;                          // wall running
     public float wallRunTotalTimeAllowed = 2;
 
     public float wallRunJumpForwardValue;
@@ -74,7 +73,7 @@ public class CharacterControllerNew : MonoBehaviour
     public float wallRunForwardValue;
     public float wallRunDownwardValue;
 
-    public CameraControllerNew camController;
+    public CameraControllerNew camController;               // camera tilt
 
     bool tiltRight;
     bool tiltLeft;
@@ -84,9 +83,6 @@ public class CharacterControllerNew : MonoBehaviour
 
     public Transform playerTransform;
 
-
-  //  public bool wallX;
-//    public bool wallZ;
 
     public float maxTilt = 10;
     public AnimationCurve tiltCurve;
@@ -101,7 +97,6 @@ public class CharacterControllerNew : MonoBehaviour
 
     public float midAirForce = 1.2f;
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -113,7 +108,7 @@ public class CharacterControllerNew : MonoBehaviour
         DetermineTilt();
         CameraTilt();
 
-        if (!handsControl.handsInControl)
+        if (!handsControl.handsInControl)                      // when hands not in control  >  player body decision
         {
             if(!pushBody)
             {
@@ -122,8 +117,8 @@ public class CharacterControllerNew : MonoBehaviour
         }
         else
         {
-            transform.position = bodyFollowHands.transform.position;        //    currentPosition;
-            transform.eulerAngles = bodyFollowHands.transform.eulerAngles;// 
+            transform.position = bodyFollowHands.transform.position;                // otherwise  >  place body where hands are
+            transform.eulerAngles = bodyFollowHands.transform.eulerAngles;
         }
     }
 
