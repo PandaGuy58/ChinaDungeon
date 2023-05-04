@@ -13,6 +13,6 @@ public class FPS : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      //  Debug.Log(1f / Time.deltaTime);
+        Debug.Log(1f / Time.deltaTime);
     }
 }

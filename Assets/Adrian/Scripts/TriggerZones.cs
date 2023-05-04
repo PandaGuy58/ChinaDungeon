@@ -11,6 +11,7 @@ public class TriggerZones : MonoBehaviour
 
     public bool animatedOnce;
     public bool disableLight;
+    public bool endOfGame;
 
     float trapActivateTime = -1;
 
@@ -23,13 +24,15 @@ public class TriggerZones : MonoBehaviour
     public GameObject lightSources;
     public GameObject playerGameObject;
 
+    public AudioSource pressurePlate;
+    public AudioSource bars;
 
     private void Start()
     {
         //GameObject.Find("Cam1").SetActive(false);
         animatedOnce = false;
 
-        for(int i = 0; i < trapObjects.Count; i++)
+        for (int i = 0; i < trapObjects.Count; i++)
         {
             startLocation[i] = trapObjects[i].transform.position;
         }
@@ -37,14 +40,18 @@ public class TriggerZones : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name == "Upper Body")
+        if (other.gameObject.name == "Player")
         {
-            GameObject.Find("GameMaster").GetComponent<FadeScreen>().fadeIn = true;
-            GameObject.Find("GameMaster").GetComponent<FadeScreen>().once = true;
-            GameObject.Find("GameMaster").GetComponent<FadeScreen>().activation = Time.time;
-            GameObject.Find("GameMaster").GetComponent<GameMaster>().currentTriggerZone = this.gameObject;
-            GameObject.Find("GameMaster").GetComponent<GameMaster>().playerActive = true;
-            GameObject.Find("GameMaster").GetComponent<GameMaster>().darkScreenFade = true;
+            if (zoneId != 10)
+            {
+                GameObject.Find("GameMaster").GetComponent<FadeScreen>().fadeIn = true;
+                GameObject.Find("GameMaster").GetComponent<FadeScreen>().once = true;
+                GameObject.Find("GameMaster").GetComponent<FadeScreen>().activation = Time.time;
+                GameObject.Find("GameMaster").GetComponent<GameMaster>().currentTriggerZone = this.gameObject;
+                GameObject.Find("GameMaster").GetComponent<GameMaster>().playerActive = true;
+                GameObject.Find("GameMaster").GetComponent<GameMaster>().darkScreenFade = true;
+                playerGameObject.SetActive(false);
+            }
             playerGameObject.SetActive(false);
             if (!animatedOnce)
             {
@@ -54,6 +61,11 @@ public class TriggerZones : MonoBehaviour
 
                 GameObject.Find("GameMaster").GetComponent<GameMaster>().cameraId = zoneId;
                 GameObject.Find("GameMaster").GetComponent<GameMaster>().cinemachineTime = time;
+
+                if (zoneId == 10)
+                {
+                    endOfGame = true;
+                }
 
                 if (cinemachine && zoneId == 2)
                 {
@@ -79,13 +91,27 @@ public class TriggerZones : MonoBehaviour
                 }
 
             }
+
+            if (zoneId != 10 && zoneId !=2 && zoneId != 3 && zoneId != 5)
+            {
+                if (!pressurePlate.isPlaying && pressurePlate != null)
+                {
+                    pressurePlate.Play();
+                }
+
+                if (!bars.isPlaying && bars != null)
+                {
+                    bars.Play();
+                }
+            }
+
             Debug.Log("EnterZone1");
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.name == "Upper Body")
+        if (other.gameObject.name == "Player")
         {
             Debug.Log("ExitZone1");
         }
@@ -101,7 +127,7 @@ public class TriggerZones : MonoBehaviour
 
             trapObjects[i].transform.position = Vector3.Lerp(startLocation[i], endLocation[i], curveEvaluate);
 
-            if (percentComplete > 0.99f && i == trapObjects.Count-1 && playerGameObject.activeSelf)
+            if (percentComplete > 0.99f && i == trapObjects.Count - 1 && playerGameObject.activeSelf)
             {
                 playerGameObject.SetActive(true);
                 //GameObject.Find("Ground Check").GetComponent<CheckGround>().groundObjectsDetected = 0;
@@ -117,7 +143,7 @@ public class TriggerZones : MonoBehaviour
 
     private void Update()
     {
-        if(trapActivateTime != -1)
+        if (trapActivateTime != -1)
         {
             UpdateObjects();
         }

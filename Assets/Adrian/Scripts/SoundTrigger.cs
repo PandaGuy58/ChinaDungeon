@@ -26,7 +26,7 @@ public class SoundTrigger : MonoBehaviour
     {
         if (!oneTime)
         {
-            if (other.gameObject.name == "Upper Body")
+            if (other.gameObject.name == "Player")
             {
                 if (!sound.isPlaying && sound != null && !once)
                 {
@@ -38,7 +38,7 @@ public class SoundTrigger : MonoBehaviour
         }
         if (oneTime)
         {
-            if (other.gameObject.name == "Upper Body")
+            if (other.gameObject.name == "Player")
             {
                 if (!sound.isPlaying && sound != null && !once)
                 {

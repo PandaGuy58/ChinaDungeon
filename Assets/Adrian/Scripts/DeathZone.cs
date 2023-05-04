@@ -13,7 +13,7 @@ public class DeathZone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name == "Lower Body" || other.gameObject.name == "Upper Body")
+        if (other.gameObject.name == "Player")
         {
             Checkpoints.deathCooldownCounter = 0;
             killable = true;
@@ -22,7 +22,7 @@ public class DeathZone : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.name == "Lower Body" || other.gameObject.name == "Upper Body")
+        if (other.gameObject.name == "Player")
         {
             killable = false;
         }
