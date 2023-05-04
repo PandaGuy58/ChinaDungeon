@@ -127,7 +127,7 @@ public class CharacterControllerNew : MonoBehaviour
         CalculateVelocityValues();
         if (!handsControl.handsInControl)
         {
-            rb.AddForce(new Vector3(0, gravityValue, 0));
+            
 
             if (pushBody)
             {
@@ -136,7 +136,12 @@ public class CharacterControllerNew : MonoBehaviour
             else if (DetectWallRunning())
             {
                 WallRun();              // wall running
-            }            
+                rb.AddForce(new Vector3(0, gravityValue, 0));
+            } 
+            else
+            {
+                rb.AddForce(new Vector3(0, gravityValue, 0));
+            }
         }
         else
         {
@@ -181,9 +186,10 @@ public class CharacterControllerNew : MonoBehaviour
 
     public void PushUp(bool upwards)
     {
-        Debug.Log(Time.time + " " + upwards);
+    //    Debug.Log(Time.time + " " + upwards);
         if (upwards)
         {
+            Debug.Log(Time.time);
             rb.velocity = new Vector3(0, 0, 0);
             Vector3 upward = transform.up * pushUpValue;
             rb.AddForce(upward);
