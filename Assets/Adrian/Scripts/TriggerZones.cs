@@ -23,6 +23,7 @@ public class TriggerZones : MonoBehaviour
 
     public GameObject lightSources;
     public GameObject playerGameObject;
+    public GameObject hands;
 
     public AudioSource pressurePlate;
     public AudioSource bars;
@@ -50,9 +51,10 @@ public class TriggerZones : MonoBehaviour
                 GameObject.Find("GameMaster").GetComponent<GameMaster>().currentTriggerZone = this.gameObject;
                 GameObject.Find("GameMaster").GetComponent<GameMaster>().playerActive = true;
                 GameObject.Find("GameMaster").GetComponent<GameMaster>().darkScreenFade = true;
-                playerGameObject.SetActive(false);
+                GameObject.Find("Player").GetComponent<CharacterControllerNew>().enabled = false;
             }
-            playerGameObject.SetActive(false);
+            GameObject.Find("Player").GetComponent<CharacterControllerNew>().enabled = false;
+            hands.SetActive(false);
             if (!animatedOnce)
             {
                 GameMaster.activation = Time.time;
@@ -129,7 +131,8 @@ public class TriggerZones : MonoBehaviour
 
             if (percentComplete > 0.99f && i == trapObjects.Count - 1 && playerGameObject.activeSelf)
             {
-                playerGameObject.SetActive(true);
+                GameObject.Find("Player").GetComponent<CharacterControllerNew>().enabled = true;
+                hands.SetActive(true);
                 //GameObject.Find("Ground Check").GetComponent<CheckGround>().groundObjectsDetected = 0;
                 //GameObject.Find("Ground Check").GetComponent<BodyCollisionCheck>().groundObjectsDetected = 0;
                 //GameObject.Find("GameMaster").GetComponent<FadeScreen>().fadeIn = true;

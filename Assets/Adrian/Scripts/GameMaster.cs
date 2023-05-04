@@ -19,6 +19,7 @@ public class GameMaster : MonoBehaviour
     public float cinemachineTime;
 
     public GameObject playerGameObject;
+    public GameObject hands;
     public GameObject currentTriggerZone;
 
     public bool playerActive;
@@ -92,7 +93,8 @@ public class GameMaster : MonoBehaviour
             if (playerActive)
             {
                 Debug.Log("ONCE");
-                playerGameObject.SetActive(true);
+                GameObject.Find("Player").GetComponent<CharacterControllerNew>().enabled = true;
+                hands.SetActive(true);
                 if (cinemachineActive)
                 {
                     Destroy(currentTriggerZone);
