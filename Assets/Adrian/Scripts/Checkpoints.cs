@@ -16,8 +16,6 @@ public class Checkpoints : MonoBehaviour
     public float deathCooldown;
     public static float deathCooldownCounter;
 
-    public AudioSource deathSound;
-
     void Start()
     {
         deathCooldownCounter = 0;
@@ -39,10 +37,6 @@ public class Checkpoints : MonoBehaviour
         }
         if(falledToDeath || death)
         {
-            if (!deathSound.isPlaying)
-            {
-                deathSound.Play();
-            }
             GameObject.Find("GameMaster").GetComponent<FadeScreen>().fadeIn = true;
             GameObject.Find("GameMaster").GetComponent<FadeScreen>().once = true;
             GameObject.Find("GameMaster").GetComponent<FadeScreen>().activation = Time.time;

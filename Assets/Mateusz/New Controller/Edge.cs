@@ -7,6 +7,7 @@ public class Edge : MonoBehaviour
     public List<Transform> grabPoint;
     public bool grab;
     public bool pushUp;
+    public bool release;
     // Start is called before the first frame update
     void Start()
     {

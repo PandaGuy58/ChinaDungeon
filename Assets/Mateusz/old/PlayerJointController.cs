@@ -5,6 +5,9 @@ using TMPro;
 
 public class PlayerJointController : MonoBehaviour
 {
+
+}
+    /*
     //   bool grabDetected;
     bool grabbing;
     Rigidbody rb;
@@ -51,7 +54,7 @@ public class PlayerJointController : MonoBehaviour
 
     public LaunchArea launchArea;
 
-    int grabLayer = 7;
+ //   int grabLayer = 7;
 
     RaycastHit[] raycastHitGrabObject;
     bool midLaunch = false;
@@ -134,7 +137,7 @@ public class PlayerJointController : MonoBehaviour
         }
         else if (grabbing && Time.time < timeGrabbed + actionsAfterGrabDelay)
         {
-            /*
+
             float timePassed = Time.time - timeGrabbed;
             float percentage = timePassed / 1;
             float evaluate = curve.Evaluate(percentage);
@@ -149,7 +152,7 @@ public class PlayerJointController : MonoBehaviour
             Vector3 calculatePosition = Vector3.Lerp(initialPos, targetPos, evaluate);
             transform.position = calculatePosition;
             rb.AddForce(transform.forward * 10 * Time.deltaTime);
-            */
+      
         }
         else if (grabbing)
         {
@@ -212,7 +215,7 @@ public class PlayerJointController : MonoBehaviour
 
 
                 Debug.Log(Time.time);
-                /*
+
                 Debug.Log(Time.time);
                 Vector3 targetDirection = cameraObj.forward * 1.5f;                // * launchForwardValue;
                 Vector3 upDirection = transform.up * 1.5f;                           //   * launchUpValue;
@@ -226,7 +229,7 @@ public class PlayerJointController : MonoBehaviour
                 grabbing = false;
                 grabReleaseTime = Time.time;
                 charController.grabbing = false;
-                */
+           
             }
             else if (Input.GetKeyDown(KeyCode.W) && targetGrabObject.pushUp)
             {
@@ -288,7 +291,7 @@ public class PlayerJointController : MonoBehaviour
         raycastHitGrabObject = Physics.RaycastAll(ray, 100);
     }
 }
-        /*
+  
         Ray ray;
         RaycastHit hit;
 
@@ -302,8 +305,8 @@ public class PlayerJointController : MonoBehaviour
         }
     }
 }
-
-        */
+         */
+ 
 
 
 
@@ -414,22 +417,22 @@ public class PlayerJointController : MonoBehaviour
 
 */
 
-    /*
-    private void OnTriggerEnter(Collider other)
+/*
+private void OnTriggerEnter(Collider other)
+{
+    if(other.gameObject.CompareTag("Grab"))
     {
-        if(other.gameObject.CompareTag("Grab"))
-        {
-            grabDetected = true;
-            grabObject = other.gameObject.GetComponent<GrabObject>();
-        }
+        grabDetected = true;
+        grabObject = other.gameObject.GetComponent<GrabObject>();
     }
-    private void OnTriggerExit(Collider other)
+}
+private void OnTriggerExit(Collider other)
+{
+    if (other.gameObject.CompareTag("Grab"))
     {
-        if (other.gameObject.CompareTag("Grab"))
-        {
-            grabDetected = false;
-        }
+        grabDetected = false;
     }
+}
 
 
 }
@@ -437,7 +440,7 @@ public class PlayerJointController : MonoBehaviour
 
 
 
-    */
+*/
 
 
 
@@ -451,96 +454,96 @@ public class PlayerJointController : MonoBehaviour
 
 
 
-    /*
-    SpringJoint joint;
-    bool grabDetected;
-    public bool grabbing;
-    public LayerMask grabLayerMask;
-    public TMP_Text tmpText;
-    Rigidbody rb;
-    public GrabObject grabObject;
-    float allowedRotationChange = 90;
+/*
+SpringJoint joint;
+bool grabDetected;
+public bool grabbing;
+public LayerMask grabLayerMask;
+public TMP_Text tmpText;
+Rigidbody rb;
+public GrabObject grabObject;
+float allowedRotationChange = 90;
 
-    CharacterController characterController;
-    CameraController cameraController;
-    // Start is called before the first frame update
-    void Start()
+CharacterController characterController;
+CameraController cameraController;
+// Start is called before the first frame update
+void Start()
+{
+
+    tmpText = GameObject.Find("Text (TMP)").GetComponent<TMP_Text>();
+    tmpText.text = "YOLO";
+    rb = gameObject.GetComponent<Rigidbody>();
+    characterController = gameObject.GetComponent<CharacterController>();
+    cameraController = GameObject.Find("Main Camera").GetComponent<CameraController>();
+}
+
+private void Update()
+{
+    RaycastGrab();
+    if (grabDetected && Input.GetKeyDown(KeyCode.E))
     {
-
-        tmpText = GameObject.Find("Text (TMP)").GetComponent<TMP_Text>();
-        tmpText.text = "YOLO";
-        rb = gameObject.GetComponent<Rigidbody>();
-        characterController = gameObject.GetComponent<CharacterController>();
-        cameraController = GameObject.Find("Main Camera").GetComponent<CameraController>();
+        grabObject.ExecuteGrab(rb);
+    //    ConnectJoint();
+    // grabbing = true;
+    }
+    else if(grabbing && Input.GetKeyDown(KeyCode.E))
+    {
+        // release the grab
     }
 
-    private void Update()
+    if(!grabbing && grabDetected)
     {
-        RaycastGrab();
-        if (grabDetected && Input.GetKeyDown(KeyCode.E))
-        {
-            grabObject.ExecuteGrab(rb);
-        //    ConnectJoint();
-        // grabbing = true;
-        }
-        else if(grabbing && Input.GetKeyDown(KeyCode.E))
-        {
-            // release the grab
-        }
-
-        if(!grabbing && grabDetected)
-        {
-            tmpText.text = "E - Grab";
-        }
-        else if(grabbing)
-        {
-            tmpText.text = "E - Release" +"\n" + "Space to jump in any direction" + "\n" + "Space x2 to push away";
-        }
-        else if(!grabDetected)
-        {
-            tmpText.text = "";
-        }
+        tmpText.text = "E - Grab";
     }
-
-    // Update is called once per frame
-
-    public void ExecuteClamp(float playerCentreYValue)
+    else if(grabbing)
     {
-        grabbing = true;
-        float calculateMaxY = playerCentreYValue + allowedRotationChange;
-        float calculateMinY = playerCentreYValue - allowedRotationChange;
-
-    //    Debug.Log(calculateMaxY);
-    //    Debug.Log(calculateMinY);
-
-  //      characterController.InitialiseGrab(calculateMaxY, calculateMinY);
-  //      cameraController.InitialiseGrab(calculateMaxY, calculateMinY);
-
+        tmpText.text = "E - Release" +"\n" + "Space to jump in any direction" + "\n" + "Space x2 to push away";
     }
-
-    public void DisconnectJoint()
+    else if(!grabDetected)
     {
-        grabbing = false;
-        grabObject.FinaliseGrab();
-    }
-
-
-
-    void RaycastGrab()
-    {
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 1, grabLayerMask))
-        {
-            joint = hit.transform.gameObject.GetComponent<SpringJoint>();
-            grabObject = hit.transform.gameObject.GetComponent<GrabObject>(); 
-            grabDetected = true;
-        }
-        else
-        {
-            grabDetected = false;
-        }
+        tmpText.text = "";
     }
 }
 
-    */
+// Update is called once per frame
+
+public void ExecuteClamp(float playerCentreYValue)
+{
+    grabbing = true;
+    float calculateMaxY = playerCentreYValue + allowedRotationChange;
+    float calculateMinY = playerCentreYValue - allowedRotationChange;
+
+//    Debug.Log(calculateMaxY);
+//    Debug.Log(calculateMinY);
+
+//      characterController.InitialiseGrab(calculateMaxY, calculateMinY);
+//      cameraController.InitialiseGrab(calculateMaxY, calculateMinY);
+
+}
+
+public void DisconnectJoint()
+{
+    grabbing = false;
+    grabObject.FinaliseGrab();
+}
+
+
+
+void RaycastGrab()
+{
+    Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+    RaycastHit hit;
+    if (Physics.Raycast(ray, out hit, 1, grabLayerMask))
+    {
+        joint = hit.transform.gameObject.GetComponent<SpringJoint>();
+        grabObject = hit.transform.gameObject.GetComponent<GrabObject>(); 
+        grabDetected = true;
+    }
+    else
+    {
+        grabDetected = false;
+    }
+}
+}
+
+*/

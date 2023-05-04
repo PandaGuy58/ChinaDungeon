@@ -23,8 +23,6 @@ public class TriggerZones : MonoBehaviour
     public GameObject lightSources;
     public GameObject playerGameObject;
 
-    public AudioSource pressurePlate;
-    public AudioSource bars;
 
     private void Start()
     {
@@ -81,17 +79,6 @@ public class TriggerZones : MonoBehaviour
                 }
 
             }
-
-            if (!pressurePlate.isPlaying && pressurePlate != null)
-            {
-                pressurePlate.Play();
-            }
-
-            if (!bars.isPlaying && bars != null)
-            {
-                bars.Play();
-            }
-
             Debug.Log("EnterZone1");
         }
     }

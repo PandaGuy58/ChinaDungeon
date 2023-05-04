@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class AnimationController : MonoBehaviour
 {
+
+}
+    /*
     Animator animator;
  //   public int state;
     // Start is called before the first frame update
@@ -14,7 +17,7 @@ public class AnimationController : MonoBehaviour
     }
 
     // Update is called once per frame
- /*   void Update()
+   void Update()
     {
         if(animator != null)
         {
@@ -34,7 +37,7 @@ public class AnimationController : MonoBehaviour
         
     }
 
-    */
+
     public void RequestAnimation(int targeState)
     {
         Debug.Log(targeState);
@@ -42,3 +45,4 @@ public class AnimationController : MonoBehaviour
 
     }
 }
+*/

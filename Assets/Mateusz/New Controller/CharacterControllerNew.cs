@@ -22,7 +22,7 @@ public class CharacterControllerNew : MonoBehaviour
 
     public float wallRunTimeLeft;
 
-    public GroundCheckScript groundCheckScript;
+ //   public GroundCheckScript groundCheckScript;
 
     Rigidbody rb;
     public float gravityValue = 10;
@@ -94,6 +94,11 @@ public class CharacterControllerNew : MonoBehaviour
     Vector3 recentPlayerPos = Vector3.zero;
     bool wallRunning = false;
 
+    public float pushUpForce;
+    public float pushForwardForce;
+
+    public CheckPushUp checkPushUp;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -133,17 +138,26 @@ public class CharacterControllerNew : MonoBehaviour
             }
             else if (DetectWallRunning())
             {
-                WallRun();
-            }                                                              // wall running
+                WallRun();              // wall running
+            }            
         }
         else
         {
             wallRunning = false;
         }
 
-        if (timeLastGrounded > Time.time - 0.1f)
+        if (timeLastGrounded > Time.time - 0.2f)
         {
-            if (timeSpaceDown > Time.time - 0.1f)
+            if (checkPushUp.pushUpCounter != 0)
+            {
+                Vector3 upward = transform.up * pushUpValue * runningValue;
+                rb.AddForce(upward);
+                Vector3 forward = transform.forward * pushForwardValue * runningValue;
+                rb.AddForce(forward);
+
+                Debug.Log(Time.time);
+            }
+            else if (timeSpaceDown > Time.time - 0.2f)
             {
                 Jump();
             }
@@ -617,6 +631,8 @@ public class CharacterControllerNew : MonoBehaviour
          //   Debug.Log(Time.time);
             timeLastGrounded = Time.time;
             pushBody = false;
+
+            Debug.Log(Time.time + "grounded");
         }
     }
 }

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class HandsController : MonoBehaviour
 {
+
+}
+    /*
     //  bool grabbing = false;
     public CheckGrab checkGrab;
     public GameObject cam;
@@ -60,6 +63,7 @@ public class HandsController : MonoBehaviour
         return currentAngle;
     }
 }
+    */
 
 //}
 /*

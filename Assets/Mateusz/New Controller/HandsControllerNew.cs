@@ -30,6 +30,7 @@ public class HandsControllerNew : MonoBehaviour
     float aDown;
     float dDown;
     float wDown;
+    float mouseDown;
 
     float jumpGrabTime;
     float launchGrabTime;
@@ -42,7 +43,10 @@ public class HandsControllerNew : MonoBehaviour
 
     public float pushUpTime;
 
+    float releaseCooldownEnd = 0;
 
+    public Arms arms;
+ //   int currentState = 0;
 
     void Start()
     {
@@ -51,18 +55,60 @@ public class HandsControllerNew : MonoBehaviour
 
     void Update()
     {
+        //  CalculateAnimate();
+
         if (handsInControl)
         {
             HandsInControl();
             RaycastEdge();
             MoveToGrabPointInput();
             PushUpInput();
+            Release();
         }
         else
         {
             BodyInControl();
         }
     }
+
+    //    void CalculateAnimate()
+    //   {
+    //     if(currentEdgeIndex == 0)
+    //    {
+
+    //   }
+    //  else if(currentState == 1)
+    // {
+    //     arms.grabTime = Time.time + 0.1f;
+    // }
+    // }
+    /*
+     *         if(grabTime > Time.time)
+         {
+             targetLerp = grab;
+         }
+         else if(holdTime > Time.time)
+         {
+             targetLerp = hold;
+         }
+         else if(leftTime > Time.time)
+         {
+             targetLerp = left;
+         }
+         else if(pushTime > Time.time)
+         {
+             targetLerp = push;
+         }
+         else if(releaseTime > Time.time)
+         {
+             targetLerp = release;
+         } 
+         else if(rightTime > Time.time)
+         {
+             targetLerp = right;
+         }
+    */
+
 
     void HandsInControl()
     {
@@ -105,6 +151,28 @@ public class HandsControllerNew : MonoBehaviour
             Mathf.LerpAngle(currentRotation.y, rotationTarget.y, Time.deltaTime * 10),
             Mathf.LerpAngle(currentRotation.z, currentRotation.z, Time.deltaTime));
         transform.eulerAngles = currentRotation;
+    }
+
+    void Release()
+    {
+        if (mouseDown > 0.5f)
+        {
+            Debug.Log(Time.time);
+            handsInControl = false;
+            mouseDown = 0;
+            releaseCooldownEnd = Time.time + 1;
+
+            arms.releaseTime = Time.time + 0.5f;
+
+        }
+        else if (Input.GetMouseButtonDown(0))
+        {
+            mouseDown = 0;
+        }
+        else if (Input.GetMouseButton(0))
+        {
+            mouseDown += Time.deltaTime;
+        }
     }
 
     void RaycastEdge()
@@ -183,9 +251,9 @@ public class HandsControllerNew : MonoBehaviour
 
     void PushUpInput()
     {
-        if(edge.pushUp && Time.time > timeGrabInitiated + 1)
+        if (edge.pushUp && Time.time > timeGrabInitiated + 1)
         {
-            if(wDown > 0.5f)
+            if (wDown > 0.5f)
             {
                 characterController.pushBody = true;
                 characterController.PushUp(true);
@@ -193,14 +261,18 @@ public class HandsControllerNew : MonoBehaviour
                 handsInControl = false;
                 pushUpTime = Time.time;
                 wDown = 0;
+
+                arms.pushTime = Time.time + 0.5f;
             }
-            else if(Input.GetKeyDown(KeyCode.W))
+            else if (Input.GetKeyDown(KeyCode.W))
             {
                 wDown = 0;
+                arms.pushTime = Time.time + 0.1f;
             }
-            else if(Input.GetKey(KeyCode.W))
+            else if (Input.GetKey(KeyCode.W))
             {
                 wDown += Time.deltaTime;
+                arms.pushTime = Time.time + 0.1f;
             }
 
         }
@@ -229,15 +301,21 @@ public class HandsControllerNew : MonoBehaviour
                     cameraController.startRotation = cameraController.transform.eulerAngles;
 
                     curveEvaluate = 0;
+
+                    arms.leftTime = Time.time + 0.5f;
                 }
             }
             else if (Input.GetKeyDown(KeyCode.A))
             {
                 aDown = 0;
+                arms.leftTime = Time.time + 0.1f;
+
+
             }
             else if (Input.GetKey(KeyCode.A))
             {
                 aDown += Time.deltaTime;
+                arms.leftTime = Time.time + 0.1f;
             }
             else if (dDown > 0.5f)
             {
@@ -255,25 +333,28 @@ public class HandsControllerNew : MonoBehaviour
                     cameraController.startRotation = cameraController.transform.eulerAngles;
 
                     curveEvaluate = 0;
+
+                    arms.rightTime = Time.time + 0.5f;
                 }
             }
             else if (Input.GetKeyDown(KeyCode.D))
             {
                 dDown = 0;
+                arms.rightTime = Time.time + 0.1f;
             }
             else if (Input.GetKey(KeyCode.D))
             {
                 dDown += Time.deltaTime;
+                arms.rightTime = Time.time + 0.1f;
             }
         }
     }
 
 
 
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Edge") && !handsInControl)
+        if (other.gameObject.CompareTag("Edge") && !handsInControl && Time.time > releaseCooldownEnd)
         {
             handsInControl = true;
             jumpGrabTime = Time.time;
@@ -320,9 +401,7 @@ public class HandsControllerNew : MonoBehaviour
             cameraController.startRotation = cameraController.transform.eulerAngles;
             curveEvaluate = 0;
 
-
+          //  currentState = 1;
         }
     }
 }
-
-  

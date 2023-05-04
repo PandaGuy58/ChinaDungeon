@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GrabObject : MonoBehaviour
 {
+
+}
+    /*
     public float yRotation;
     public float finalYCoordinate;
 
@@ -32,7 +35,7 @@ public class GrabObject : MonoBehaviour
 }
 
 
-
+    */
 
 
 
