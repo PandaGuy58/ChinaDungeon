@@ -98,8 +98,8 @@ public class GameMaster : MonoBehaviour
                 GameObject.Find("Player").GetComponent<CharacterControllerNew>().enabled = true;
                 GameObject.Find("Player").GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
                 hands.SetActive(true);
-                MatCam.SetActive(true);
-                AdrianCam.SetActive(false);
+                //MatCam.SetActive(true);
+                AdrianCam.GetComponent<Camera>().depth = 0;
                 if (cinemachineActive)
                 {
                     Destroy(currentTriggerZone);

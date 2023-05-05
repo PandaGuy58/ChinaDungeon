@@ -49,8 +49,8 @@ public class TriggerZones : MonoBehaviour
             {
                 GameObject.Find("Player").GetComponent<Rigidbody>().velocity = Vector3.zero;
                 GameObject.Find("Player").GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
-                MatCam.SetActive(false);
-                AdrianCam.SetActive(true);
+                //MatCam.SetActive(false);
+                AdrianCam.GetComponent<Camera>().depth = 2;
                 GameObject.Find("GameMaster").GetComponent<FadeScreen>().fadeIn = true;
                 GameObject.Find("GameMaster").GetComponent<FadeScreen>().once = true;
                 GameObject.Find("GameMaster").GetComponent<FadeScreen>().activation = Time.time;
