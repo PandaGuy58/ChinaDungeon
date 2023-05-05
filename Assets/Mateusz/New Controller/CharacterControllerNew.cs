@@ -152,7 +152,7 @@ public class CharacterControllerNew : MonoBehaviour
         {
             if (checkPushUp.pushUpCounter != 0)
             {
-             //   Debug.Log(Time.time);
+                Debug.Log(Time.time);
                 Vector3 upward = transform.up * pushUpValue * runningValue;
                 rb.AddForce(upward);
                 Vector3 forward = transform.forward * pushForwardValue * runningValue;
@@ -363,9 +363,10 @@ public class CharacterControllerNew : MonoBehaviour
         
         Vector3 targetDirection = Vector3.zero;
 
-        if (timeSpaceDown > Time.time - 0.1f)
+        if (timeSpaceDown > Time.time - 0.1f)                   // wall run jump
         {
-        //    Debug.Log(Time.time);
+            Debug.Log(Time.time);
+
             timeJumped = Time.time;
             Vector3 jumpDirection = wallJumpDirection * wallRunJumpForwardValue;
             Vector3 upDirection = transform.up * wallRunJumpUpValue;
@@ -376,15 +377,15 @@ public class CharacterControllerNew : MonoBehaviour
         else
         {
 
-            if (Time.time > timeLastGrounded)
+            if (Time.time > timeLastGrounded)                   // when wall running  >  wall run time decrease
             {
                 
                 wallRunTimeLeft -= 0.02f;
             }
 
 
-
-            if (wallRunTravelX)
+            // determine direction of wall run / dependant on wall direction + player camera angle
+            if (wallRunTravelX)                       
             {
                 if (camController.horizontalTheoreticalMouse < 140 && camController.horizontalTheoreticalMouse > 40)
                 {
@@ -412,17 +413,18 @@ public class CharacterControllerNew : MonoBehaviour
 
             if (targetDirection != Vector3.zero)
             {
-             //   Debug.Log(Time.time +" wallrunning");
                 rb.velocity = targetDirection;
             }
             
         }
     }
 
-    public void EnableWallRun(bool state)
+    public void EnableWallRun(bool state)                       // trigger player wall run
     {
         if (state)
         {
+            timeSpaceDown = 0;
+            timeJumped = 0;
             wallRunTimeLeft = wallRunTotalTimeAllowed;
         }
         else
@@ -439,7 +441,7 @@ public class CharacterControllerNew : MonoBehaviour
         rb.AddForce(move);
     }
 
-    void ExecuteMovementOnGround()
+    void ExecuteMovementOnGround()                              // enable player move when grounded
     {
         if (Time.time > timeJumped + 0.5f)
         {
@@ -518,12 +520,11 @@ public class CharacterControllerNew : MonoBehaviour
         rb.AddForce(new Vector3(0, -1, 0));
     }
 
-    void DetermineTilt()
+    void DetermineTilt()                          // calculate if tilt required + direction of tilt
     {
         Vector3 currentPlayerPos = transform.position;
         if (wallRunTravelX && wallRunning)
         {
-         //   Debug.Log(Time.time);
             float change = currentPlayerPos.x - recentPlayerPos.x;
             
             if (change > 0)
@@ -537,8 +538,6 @@ public class CharacterControllerNew : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log(change + " if (change > 0) " + Time.time);
-
                     tiltRight = false;
                     tiltLeft = true;
 
@@ -596,7 +595,7 @@ public class CharacterControllerNew : MonoBehaviour
     }
 
 
-    void CameraTilt()
+    void CameraTilt()                                           // calculate + apply tilt to camera
     {
         if (tiltLeft)
         {
