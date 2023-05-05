@@ -90,12 +90,16 @@ public class CharacterControllerNew : MonoBehaviour
     Vector3 recentPlayerPos = Vector3.zero;
     bool wallRunning = false;
 
-    public float pushUpForce;
-    public float pushForwardForce;
+ //   public float pushUpForce;
+   // public float pushForwardForce;
 
     public CheckPushUp checkPushUp;
 
     public float midAirForce = 1.2f;
+
+    public GroundCheck groundCheck;
+
+    public float maxYVelocity = 3.5f;
 
     void Start()
     {
@@ -120,10 +124,23 @@ public class CharacterControllerNew : MonoBehaviour
             transform.position = bodyFollowHands.transform.position;                // otherwise  >  place body where hands are
             transform.eulerAngles = bodyFollowHands.transform.eulerAngles;
         }
+
+
+
     }
 
     private void FixedUpdate()
     {
+        float currentY = rb.velocity.y;
+        if(currentY > maxYVelocity)
+        {
+            Debug.Log(Time.time + " max velocity");
+            Vector3 targetVelocity = rb.velocity;
+            targetVelocity.y = maxYVelocity;
+            rb.velocity = targetVelocity;
+        }
+
+
         CalculateVelocityValues();
         if (!handsControl.handsInControl)
         {
@@ -148,18 +165,23 @@ public class CharacterControllerNew : MonoBehaviour
             wallRunning = false;
         }
 
-        if (timeLastGrounded > Time.time - 0.2f)
-        {
-            if (checkPushUp.pushUpCounter != 0)
-            {
-                Debug.Log(Time.time);
-                Vector3 upward = transform.up * pushUpValue * runningValue;
-                rb.AddForce(upward);
-                Vector3 forward = transform.forward * pushForwardValue * runningValue;
-                rb.AddForce(forward);
 
-            }
-            else if (timeSpaceDown > Time.time - 0.2f)
+
+        if (checkPushUp.pushUpCounter != 0 && movingForward)
+        {
+            //   groundCheck.pushTimeAllowed -= 0.02f;
+            //   Debug.Log(Time.time + " " + groundCheck.pushTimeAllowed);
+            Debug.Log(Time.time);
+
+            Vector3 upward = transform.up * pushUpValue * runningValue;
+            rb.AddForce(upward);
+            Vector3 forward = transform.forward * pushForwardValue * runningValue;
+            rb.AddForce(forward);
+            timeSpaceDown = 0;
+        }
+        else if (groundCheck.timeLastGrounded > Time.time - 0.2f)
+        {
+            if (timeSpaceDown > Time.time - 0.2f)
             {
                 Jump();
             }
@@ -365,7 +387,7 @@ public class CharacterControllerNew : MonoBehaviour
 
         if (timeSpaceDown > Time.time - 0.1f)                   // wall run jump
         {
-            Debug.Log(Time.time);
+          //  Debug.Log(Time.time);
 
             timeJumped = Time.time;
             Vector3 jumpDirection = wallJumpDirection * wallRunJumpForwardValue;
