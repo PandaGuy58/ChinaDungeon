@@ -100,30 +100,6 @@ public class CameraControllerNew : MonoBehaviour
 
 
 
-            /*
-            bool rotationYPositive;
-            bool rotationYNegative;
-
-            if (Input.GetAxis("Mouse X") > 0)
-            {
-                rotationYPositive = true;
-                rotationYNegative = false;
-            }
-            else if (Input.GetAxis("Mouse X") < 0)
-            {
-                rotationYPositive = false;
-                rotationYNegative = true;
-            }
-            else
-            {
-                rotationYPositive = false;
-                rotationYNegative = false;
-            }
-
-            */
-
-
-
         }
     }
 
@@ -156,13 +132,37 @@ public class CameraControllerNew : MonoBehaviour
 
     public void ApplyCameraTilt(float zVal)
     {
+       // Debug.Log(Time.time + " z" + zVal);
         Vector3 cameraAngle = gameObject.transform.eulerAngles;
         cameraAngle.z = zVal;
         gameObject.transform.eulerAngles = cameraAngle;
+
+     //   Debug.Log(gameObject.transform.eulerAngles + " " + Time.time);
     }
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /*
 

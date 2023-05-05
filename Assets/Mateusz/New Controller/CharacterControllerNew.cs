@@ -152,6 +152,7 @@ public class CharacterControllerNew : MonoBehaviour
         {
             if (checkPushUp.pushUpCounter != 0)
             {
+             //   Debug.Log(Time.time);
                 Vector3 upward = transform.up * pushUpValue * runningValue;
                 rb.AddForce(upward);
                 Vector3 forward = transform.forward * pushForwardValue * runningValue;
@@ -359,11 +360,12 @@ public class CharacterControllerNew : MonoBehaviour
 
     void WallRun()
     {
-       // Debug.Log(Time.time);
+        
         Vector3 targetDirection = Vector3.zero;
 
         if (timeSpaceDown > Time.time - 0.1f)
         {
+        //    Debug.Log(Time.time);
             timeJumped = Time.time;
             Vector3 jumpDirection = wallJumpDirection * wallRunJumpForwardValue;
             Vector3 upDirection = transform.up * wallRunJumpUpValue;
@@ -376,6 +378,7 @@ public class CharacterControllerNew : MonoBehaviour
 
             if (Time.time > timeLastGrounded)
             {
+                
                 wallRunTimeLeft -= 0.02f;
             }
 
@@ -409,6 +412,7 @@ public class CharacterControllerNew : MonoBehaviour
 
             if (targetDirection != Vector3.zero)
             {
+             //   Debug.Log(Time.time +" wallrunning");
                 rb.velocity = targetDirection;
             }
             
@@ -519,30 +523,40 @@ public class CharacterControllerNew : MonoBehaviour
         Vector3 currentPlayerPos = transform.position;
         if (wallRunTravelX && wallRunning)
         {
+         //   Debug.Log(Time.time);
             float change = currentPlayerPos.x - recentPlayerPos.x;
+            
             if (change > 0)
             {
-                tiltRight = true;
-                tiltLeft = false;
+                if (alternativeCamera)
+                {
+                    tiltRight = true;
+                    tiltLeft = false;
 
-                    if (alternativeCamera)
-                    {
-                        tiltRight = false;
-                        tiltLeft = true;
-                    }
+
+                }
+                else
+                {
+                    Debug.Log(change + " if (change > 0) " + Time.time);
+
+                    tiltRight = false;
+                    tiltLeft = true;
+
+                }
 
             }
             else if (change < 0)
             {
-                tiltLeft = false;
-                tiltRight = true;
-
-
-                    if (alternativeCamera)
-                    {
-                        tiltRight = true;
-                        tiltLeft = false;
-                    }
+                if (alternativeCamera)
+                {
+                    tiltRight = true;
+                    tiltLeft = false;
+                }
+                else
+                {
+                    tiltLeft = false;
+                    tiltRight = true;
+                }
 
             }
         }
