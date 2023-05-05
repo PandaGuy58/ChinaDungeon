@@ -43,7 +43,7 @@ public class TriggerZones : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name == "Player")
+        if (other.gameObject.name == "Player" && GameObject.Find("Player").GetComponent<CharacterControllerNew>().groundCheck.timeLastGrounded > Time.time - 0.2f)
         {
             if (zoneId != 10)
             {
