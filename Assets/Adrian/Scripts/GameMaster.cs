@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.Rendering.Universal;
 
 public class GameMaster : MonoBehaviour
 {
@@ -98,7 +99,8 @@ public class GameMaster : MonoBehaviour
                 GameObject.Find("Player").GetComponent<CharacterControllerNew>().enabled = true;
                 GameObject.Find("Player").GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
                 hands.SetActive(true);
-                //MatCam.SetActive(true);
+                MatCam.GetComponent<Camera>().gameObject.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = true;
+                AdrianCam.GetComponent<Camera>().gameObject.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = false;
                 AdrianCam.GetComponent<Camera>().depth = 0;
                 if (cinemachineActive)
                 {
